@@ -1,13 +1,13 @@
 from flask import Flask, jsonify, request
 from sympy import Eq, solve, Symbol
+import sys
 x = Symbol('x')
 
 app = Flask(__name__)
 letters = ('abcdefghijklmnopqrstuvwxyz')
 
-def solve(string):
-    try:
-        eqn = ('Eq(' + string + ')')
+def decrpytmessage(stringname):
+        eqn = ('Eq(' + stringname + ')')
         eqn = str(eqn.replace(' ', ''))
         eqn = str(eqn.replace('=', ','))
         try:
@@ -54,14 +54,13 @@ def solve(string):
         eqn = eqn.replace('{', '')
         eqn = eqn.replace(':', '=')
         return eqn
-    except:
-        return 'Error'
 
 @app.route('/user', methods = ['GET'])
 def index():
     Query = str(request.args['Query'])
     print(Query)
-    answer = solve(Query)
+    print('solving')
+    answer = decrpytmessage(str(Query))
     return jsonify({'answer':answer})
 
 
